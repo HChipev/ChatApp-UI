@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useNavigate,
+  Outlet,
 } from "react-router-dom";
 import GoogleLogin from "./pages/GoogleLogin";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -13,23 +13,17 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
-import { useSelector } from "react-redux";
+import Layout from "./components/Layout";
 
 const App: React.FC = () => {
-  const isAuthenticated = useSelector((state) => state.identity.value);
-
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<GoogleLogin />} />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Home />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/" element={<Layout />} />
+        <Route path="login" element={<GoogleLogin />} />
+        <Route element={<PrivateRoute />}>
+          <Route index element={<Home />} />
+        </Route>
       </Routes>
     </Router>
   );

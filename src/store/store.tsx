@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import identitySlice from "./slices/identitySlice";
+import { apiSlice } from "./slices/api/apiSlice";
+import identityReducer from "./slices/identitySlice";
 
 const store = configureStore({
   reducer: {
-    identity: identitySlice,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    identity: identityReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

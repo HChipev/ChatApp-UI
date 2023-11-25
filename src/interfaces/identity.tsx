@@ -1,10 +1,13 @@
-interface PrivateRouteProps {
-  isAuthenticated: boolean;
-}
-
 interface CustomGoogleLoginButtonProps {
   onClick: () => void;
   children?: React.ReactNode;
 }
 
-export type { PrivateRouteProps, CustomGoogleLoginButtonProps };
+interface RefreshTokenResponse {
+  tokens: {
+    token: string;
+    refreshToken: string;
+  };
+}
+
+export type { RefreshTokenResponse, CustomGoogleLoginButtonProps };
