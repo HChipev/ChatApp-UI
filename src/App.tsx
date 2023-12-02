@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Outlet,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GoogleLogin from "./pages/GoogleLogin";
 import PrivateRoute from "./routes/PrivateRoute";
 import Home from "./pages/Home";
@@ -14,8 +8,10 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import Layout from "./components/Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentTheme } from "./store/slices/themeSlice";
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <Router>
       <Routes>

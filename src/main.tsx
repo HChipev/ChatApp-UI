@@ -4,14 +4,18 @@ import App from "./App.tsx";
 import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Provider } from "react-redux";
-import store from "./store/store.tsx";
+import { store, persistor } from "./store/store.ts";
+import { PersistGate } from "redux-persist/integration/react";
+import { CircularProgress } from "@mui/material";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <Provider store={store}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <PersistGate loading={<CircularProgress />} persistor={persistor}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </PersistGate>
     </Provider>
   </GoogleOAuthProvider>
 );

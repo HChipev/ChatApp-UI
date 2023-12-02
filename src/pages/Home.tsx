@@ -1,11 +1,24 @@
-// DashboardPage.tsx
-import React from "react";
+import Chat from "../components/Chat";
+import Sidebar from "../components/Sidebar";
+import { MessagesProps } from "../interfaces/message";
 
-const Home: React.FC = () => {
+const Home = () => {
+  const messages: MessagesProps = {
+    messages: [
+      { message: { fromMe: true, text: "hi" } },
+      {
+        message: {
+          fromMe: false,
+          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum id ullam hic? Impedit delectus nulla earum blanditiis expedita distinctio autem totam quam, neque tempore sapiente ad dolorem, soluta, culpa obcaecati?",
+        },
+      },
+      { message: { fromMe: true, text: "nothing" } },
+    ],
+  };
   return (
-    <div>
-      <h2>Dashboard Page</h2>
-      <p>Welcome to the dashboard!</p>
+    <div className="flex min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
+      <Sidebar />
+      <Chat messages={messages.messages} />
     </div>
   );
 };
