@@ -10,18 +10,23 @@ const persistConfig = {
 
 export const themeSlice = createSlice({
   name: "theme",
-  initialState: { darkMode: null },
+  initialState: { darkMode: null, sysPreferenceDarkMode: false },
   reducers: {
     setDarkMode: (state, action) => {
       state.darkMode = action.payload;
     },
+    setSysPreferenceDarkMode: (state, action) => {
+      state.sysPreferenceDarkMode = action.payload;
+    },
   },
 });
 
-export const { setDarkMode } = themeSlice.actions;
+export const { setDarkMode, setSysPreferenceDarkMode } = themeSlice.actions;
 
 const identityReducer = persistReducer(persistConfig, themeSlice.reducer);
 
 export default identityReducer;
 
 export const selectCurrentTheme = (state: RootState) => state.theme.darkMode;
+export const selectCurrentSystemPreferenceTheme = (state: RootState) =>
+  state.theme.sysPreferenceDarkMode;

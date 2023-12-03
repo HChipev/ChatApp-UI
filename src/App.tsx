@@ -8,10 +8,35 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import Layout from "./components/Layout";
+import { useEffect } from "react";
+import { toggleTheme, toggleDarkClass } from "./helpers/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentTheme } from "./store/slices/themeSlice";
+import {
+  selectCurrentTheme,
+  setSysPreferenceDarkMode,
+} from "./store/slices/themeSlice";
 
 const App = () => {
+  const isDarkMode = useSelector(selectCurrentTheme);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    toggleDarkClass(isDarkMode === null ? mediaQuery.matches : isDarkMode);
+
+    mediaQuery.addEventListener("change", (e) => {
+      toggleDarkClass(e.matches);
+      dispatch(setSysPreferenceDarkMode(e.matches));
+    });
+
+    return () => {
+      mediaQuery.removeEventListener("change", (e) =>
+        toggleDarkClass(e.matches)
+      );
+    };
+  }, []);
+
   return (
     <Router>
       <Routes>

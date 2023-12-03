@@ -9,7 +9,10 @@ export const identityApiSlice = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
+    logOut: builder.mutation({
+      query: () => "Identity/logout",
+    }),
   }),
 });
 
-export const { useGoogleLoginMutation } = identityApiSlice;
+export const { useGoogleLoginMutation, useLogOutMutation } = identityApiSlice;
