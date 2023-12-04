@@ -1,6 +1,3 @@
-import { useDispatch } from "react-redux";
-import { setDarkMode } from "../store/slices/themeSlice";
-
 const toggleDarkClass = (condition: boolean) => {
   const body = document.body;
 
@@ -11,11 +8,4 @@ const toggleDarkClass = (condition: boolean) => {
   }
 };
 
-const toggleTheme = (state: boolean) => {
-  const dispatch = useDispatch();
-  dispatch(setDarkMode(state));
-
-  toggleDarkClass(state);
-};
-
-export { toggleDarkClass, toggleTheme };
+export { toggleDarkClass };

@@ -8,9 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   selectCurrentSystemPreferenceTheme,
   selectCurrentTheme,
+  setDarkMode,
 } from "../store/slices/themeSlice";
-import { toggleTheme } from "../helpers/theme";
 import { useLogOutMutation } from "../store/slices/api/identityApiSlice";
+import { toggleDarkClass } from "../helpers/theme";
 
 const Sidebar = () => {
   const picture = useSelector(selectCurrentPicture);
@@ -24,6 +25,12 @@ const Sidebar = () => {
 
   const getCurrentTheme = () =>
     isDarkMode === null ? isSysPreferenceDarkMode : isDarkMode;
+
+  const toggleTheme = (state: boolean) => {
+    dispatch(setDarkMode(state));
+
+    toggleDarkClass(state);
+  };
 
   const handleLogout = async () => {
     await logOutApiCall({});

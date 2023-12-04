@@ -23,9 +23,9 @@ export const themeSlice = createSlice({
 
 export const { setDarkMode, setSysPreferenceDarkMode } = themeSlice.actions;
 
-const identityReducer = persistReducer(persistConfig, themeSlice.reducer);
+const themeReducer = persistReducer(persistConfig, themeSlice.reducer);
 
-export default identityReducer;
+export default themeReducer;
 
 export const selectCurrentTheme = (state: RootState) => state.theme.darkMode;
 export const selectCurrentSystemPreferenceTheme = (state: RootState) =>

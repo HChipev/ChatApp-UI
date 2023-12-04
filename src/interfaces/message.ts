@@ -6,4 +6,8 @@ interface MessagesProps {
   messages: MessageProps[];
 }
 
-export type { MessagesProps, MessageProps };
+interface conversationInitialState {
+  currentConversation: MessageProps[];
+}
+
+export type { MessagesProps, MessageProps, conversationInitialState };

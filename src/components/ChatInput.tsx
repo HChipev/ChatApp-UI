@@ -1,9 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useAskQuestionMutation } from "../store/slices/api/conversationApiSlice";
+import { useDispatch } from "react-redux";
+import { addNewEntry } from "../store/slices/conversationSlice";
 
 const ChatInput = () => {
   const [sendMessageClick, setSendMessageClick] = useState<boolean>(false);
   const [message, setMessage] = useState("");
+  const [askQuestion] = useAskQuestionMutation();
+  const dispatch = useDispatch();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -13,6 +18,9 @@ const ChatInput = () => {
 
   const handleSendMessage = () => {
     setSendMessageClick(true);
+    dispatch(addNewEntry({ message: { fromMe: true, text: message } }));
+    askQuestion({ Question: message });
+    setMessage("");
 
     setTimeout(() => {
       setSendMessageClick(false);
@@ -24,7 +32,13 @@ const ChatInput = () => {
       <div className="flex p-1 w-full items-end bg-none rounded-lg border border-red-500">
         <textarea
           value={message}
-          onInput={handleInputChange}
+          onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              return handleSendMessage();
+            }
+          }}
           placeholder="Type your message..."
           className="flex-1 p-2 text-xl min-h-[40px] h-10 max-h-[200px] rounded-md bg-transparent outline-none focus:outline-none resize-none"
         />

@@ -8,14 +8,16 @@ const SentMessage: React.FC<MessageProps> = ({ message }) => {
 
   return (
     <div className="flex justify-end items-center mb-6">
-      <div className="max-w-full text-lg rounded-lg px-3 py-1 bg-red-500 text-white self-end">
-        {message.text}
+      <div className="flex max-w-fit">
+        <div className="max-w-full min-h-[28px] text-lg rounded-lg px-3 py-1 bg-red-500 text-white self-end">
+          {message.text}
+        </div>
+        <img
+          src={photo ?? undefined}
+          alt="User"
+          className="w-8 h-8 ml-2 rounded-full"
+        />
       </div>
-      <img
-        src={photo ?? undefined}
-        alt="User"
-        className="w-8 h-8 ml-2 rounded-full"
-      />
     </div>
   );
 };

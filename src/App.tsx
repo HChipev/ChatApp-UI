@@ -9,12 +9,14 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import Layout from "./components/Layout";
 import { useEffect } from "react";
-import { toggleTheme, toggleDarkClass } from "./helpers/theme";
+import { toggleDarkClass } from "./helpers/theme";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentTheme,
   setSysPreferenceDarkMode,
 } from "./store/slices/themeSlice";
+import { io } from "socket.io-client";
+import { addNewEntry, addNewToken } from "./store/slices/conversationSlice";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
@@ -30,7 +32,18 @@ const App = () => {
       dispatch(setSysPreferenceDarkMode(e.matches));
     });
 
+    const socket = io("http://127.0.0.1:3000");
+
+    socket.on("add_entry", () => {
+      dispatch(addNewEntry({ message: { text: "", fromMe: false } }));
+    });
+
+    socket.on("next_token", (data) => {
+      dispatch(addNewToken(data.token));
+    });
+
     return () => {
+      socket.disconnect();
       mediaQuery.removeEventListener("change", (e) =>
         toggleDarkClass(e.matches)
       );
