@@ -9,7 +9,7 @@ const SentMessage: React.FC<MessageProps> = ({ message }) => {
   return (
     <div className="flex justify-end items-center mb-6">
       <div className="flex max-w-fit">
-        <div className="max-w-full min-h-[28px] text-lg rounded-lg px-3 py-1 bg-red-500 text-white self-end">
+        <div className="max-w-full min-h-[32px] text-2xl rounded-lg px-3 py-1 bg-red-500 text-white self-end">
           {message.text}
         </div>
         <img
