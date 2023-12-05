@@ -3,11 +3,9 @@ import { MessageProps } from "../interfaces/message";
 import { useSelector } from "react-redux";
 import { selectCurrentPicture } from "../store/slices/identitySlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { selectCurrentConversationLoading } from "../store/slices/conversationSlice";
 
 const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
   const picture = useSelector(selectCurrentPicture);
-  const loading = useSelector(selectCurrentConversationLoading);
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
 
   const handleCopyMessage = () => {
@@ -21,7 +19,7 @@ const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
 
   return (
     <div className="flex flex-col justify-center items-start-6 mb-6">
-      {!loading && (
+      {!message.currentMessageLoading && (
         <div className="flex flex-col max-w-fit">
           <div className="flex mb-2">
             <img

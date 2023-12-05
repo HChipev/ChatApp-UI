@@ -35,7 +35,11 @@ const App = () => {
     const socket = io("http://127.0.0.1:3000");
 
     socket.on("add_entry", () => {
-      dispatch(addNewEntry({ message: { text: "", fromMe: false } }));
+      dispatch(
+        addNewEntry({
+          message: { text: "", fromMe: false, currentMessageLoading: true },
+        })
+      );
     });
 
     socket.on("next_token", (data) => {

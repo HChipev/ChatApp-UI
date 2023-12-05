@@ -23,7 +23,11 @@ const ChatInput = () => {
 
   const handleSendMessage = () => {
     setSendMessageClick(true);
-    dispatch(addNewEntry({ message: { fromMe: true, text: message } }));
+    dispatch(
+      addNewEntry({
+        message: { fromMe: true, text: message },
+      })
+    );
     askQuestion({ Question: message });
     setMessage("");
 

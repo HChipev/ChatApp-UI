@@ -20,9 +20,10 @@ export const conversationSlice = createSlice({
     },
     addNewToken: (state, action) => {
       state.currentConversationLoading = false;
-      state.currentConversation[
-        state.currentConversation.length - 1
-      ].message.text += action.payload;
+      const lastMessage =
+        state.currentConversation[state.currentConversation.length - 1];
+      lastMessage.message.currentMessageLoading = false;
+      lastMessage.message.text += action.payload;
     },
   },
 });

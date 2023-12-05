@@ -1,5 +1,9 @@
 interface MessageProps {
-  message: { fromMe: boolean; text: string };
+  message: {
+    fromMe: boolean;
+    text: string;
+    currentMessageLoading: boolean;
+  };
 }
 
 interface MessagesProps {
