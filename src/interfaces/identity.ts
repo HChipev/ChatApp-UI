@@ -17,6 +17,7 @@ interface IdentitySliceInitialState {
   roles: string[] | string | null | undefined;
   picture: string | null | undefined;
   name: string | null | undefined;
+  id: number | null | undefined;
 }
 
 interface CustomJWTPayload extends JwtPayload {
@@ -25,6 +26,7 @@ interface CustomJWTPayload extends JwtPayload {
     | string;
   picture?: string;
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"?: string;
+  "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"?: number;
 }
 
 export type {

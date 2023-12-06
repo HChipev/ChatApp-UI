@@ -4,13 +4,17 @@ import { useAskQuestionMutation } from "../store/slices/api/conversationApiSlice
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewEntry,
+  selectCurrentConversationId,
   selectCurrentConversationLoading,
 } from "../store/slices/conversationSlice";
 import { CircularProgress } from "@mui/material";
+import { selectCurrentId } from "../store/slices/identitySlice";
 
 const ChatInput = () => {
   const [sendMessageClick, setSendMessageClick] = useState<boolean>(false);
   const loading = useSelector(selectCurrentConversationLoading);
+  const userId = useSelector(selectCurrentId);
+  const conversationId = useSelector(selectCurrentConversationId);
   const [message, setMessage] = useState("");
   const [askQuestion] = useAskQuestionMutation();
   const dispatch = useDispatch();
@@ -25,10 +29,14 @@ const ChatInput = () => {
     setSendMessageClick(true);
     dispatch(
       addNewEntry({
-        message: { fromMe: true, text: message },
+        message: { isFromUser: true, text: message },
       })
     );
-    askQuestion({ Question: message });
+    askQuestion({
+      Question: message,
+      UserId: userId,
+      ConversationId: conversationId,
+    });
     setMessage("");
 
     setTimeout(() => {
@@ -49,7 +57,7 @@ const ChatInput = () => {
             }
           }}
           placeholder="Type your message..."
-          className="flex-1 p-2 text-xl min-h-[40px] h-10 max-h-[200px] rounded-md bg-transparent outline-none focus:outline-none resize-none"
+          className="flex-1 p-2 text-xl min-h-[44px] h-10 max-h-[200px] rounded-md bg-transparent outline-none focus:outline-none resize-none"
         />
         <button
           disabled={loading}

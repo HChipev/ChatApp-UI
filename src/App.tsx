@@ -37,7 +37,7 @@ const App = () => {
     socket.on("add_entry", () => {
       dispatch(
         addNewEntry({
-          message: { text: "", fromMe: false, currentMessageLoading: true },
+          message: { text: "", isFromUser: false, currentMessageLoading: true },
         })
       );
     });

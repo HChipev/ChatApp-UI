@@ -18,6 +18,7 @@ const initialState: IdentitySliceInitialState = {
   roles: null,
   picture: null,
   name: null,
+  id: null,
 };
 
 export const identitySlice = createSlice({
@@ -30,17 +31,21 @@ export const identitySlice = createSlice({
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": roles,
         picture,
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": name,
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
+          id,
       } = jwtDecode<CustomJWTPayload>(action.payload);
 
       state.roles = roles;
       state.picture = picture;
       state.name = name;
+      state.id = id;
     },
     logOut: (state) => {
       state.token = null;
       state.roles = null;
       state.picture = null;
       state.name = null;
+      state.id = null;
     },
   },
 });
@@ -56,3 +61,4 @@ export const selectCurrentRoles = (state: RootState) => state.identity.roles;
 export const selectCurrentPicture = (state: RootState) =>
   state.identity.picture;
 export const selectCurrentName = (state: RootState) => state.identity.name;
+export const selectCurrentId = (state: RootState) => state.identity.id;

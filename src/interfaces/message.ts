@@ -1,6 +1,6 @@
 interface MessageProps {
   message: {
-    fromMe: boolean;
+    isFromUser: boolean;
     text: string;
     currentMessageLoading: boolean;
   };
@@ -10,9 +10,4 @@ interface MessagesProps {
   messages: MessageProps[];
 }
 
-interface conversationInitialState {
-  currentConversation: MessageProps[];
-  currentConversationLoading: boolean;
-}
-
-export type { MessagesProps, MessageProps, conversationInitialState };
+export type { MessagesProps, MessageProps };

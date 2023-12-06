@@ -12,6 +12,7 @@ import {
 } from "../store/slices/themeSlice";
 import { useLogOutMutation } from "../store/slices/api/identityApiSlice";
 import { toggleDarkClass } from "../helpers/theme";
+import Conversations from "./Conversations";
 
 const Sidebar = () => {
   const picture = useSelector(selectCurrentPicture);
@@ -39,8 +40,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between bg-gray-200 dark:bg-gray-900 p-4 h-screen min-w-[250px]">
-      <div className="flex flex-col">
+    <div className="flex flex-col justify-between bg-gray-200 dark:bg-gray-900 p-4 h-screen w-[300px]">
+      <div className="flex flex-col overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <img
@@ -92,18 +93,10 @@ const Sidebar = () => {
             </span>
           </label>
         </div>
-        <div className="flex flex-col overflow-y-auto">
-          <p className="text-lg font-semibold mb-2">Today</p>
-          {/* Render user messages here */}
-          <div className="text-gray-600 dark:text-gray-400">
-            <p>Message 1</p>
-            <p>Message 2</p>
-            {/* Add more messages as needed */}
-          </div>
-        </div>
+        <Conversations />
       </div>
       <div className="flex justify-center items-center">
-        <button className="flex justify-between items-center bg-gray-400 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-300 text-gray-600 dark:text-gray-300 focus:outline-none">
+        <button className="flex justify-between items-center bg-gray-300 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-400 text-gray-600 dark:text-gray-300 focus:outline-none">
           New Chat{" "}
           <FontAwesomeIcon className="ml-2" icon={["far", "pen-to-square"]} />
         </button>

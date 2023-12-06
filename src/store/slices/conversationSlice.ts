@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { conversationInitialState } from "../../interfaces/message";
+import { ConversationInitialState } from "../../interfaces/conversation";
 
-const initialState: conversationInitialState = {
+const initialState: ConversationInitialState = {
   currentConversation: [],
   currentConversationLoading: false,
+  currentConversationId: null,
 };
 
 export const conversationSlice = createSlice({
@@ -37,3 +38,5 @@ export const selectCurrentConversation = (state: RootState) =>
   state.conversation.currentConversation;
 export const selectCurrentConversationLoading = (state: RootState) =>
   state.conversation.currentConversationLoading;
+export const selectCurrentConversationId = (state: RootState) =>
+  state.conversation.currentConversationId;
