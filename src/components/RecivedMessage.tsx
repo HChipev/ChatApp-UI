@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { MessageProps } from "../interfaces/message";
-import { useSelector } from "react-redux";
-import { selectCurrentPicture } from "../store/slices/identitySlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import constants from "../constants/assets";
 
 const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
-  const picture = useSelector(selectCurrentPicture);
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
 
   const handleCopyMessage = () => {
@@ -23,7 +21,7 @@ const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
         <div className="flex flex-col max-w-fit">
           <div className="flex mb-2">
             <img
-              src={picture ?? undefined}
+              src={constants.logo}
               alt="Assistant"
               className="w-8 h-8 mr-2 rounded-full"
             />
