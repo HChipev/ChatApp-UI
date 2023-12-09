@@ -9,6 +9,7 @@ import {
 } from "../store/slices/conversationSlice";
 import { CircularProgress } from "@mui/material";
 import { selectCurrentId } from "../store/slices/identitySlice";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ChatInput = () => {
   const [sendMessageClick, setSendMessageClick] = useState<boolean>(false);
@@ -18,6 +19,8 @@ const ChatInput = () => {
   const [message, setMessage] = useState("");
   const [askQuestion] = useAskQuestionMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { conversationId: paramsConversationId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
@@ -25,23 +28,38 @@ const ChatInput = () => {
     e.target.style.height = `${e.target.scrollHeight - 4}px`;
   };
 
-  const handleSendMessage = () => {
-    setSendMessageClick(true);
-    dispatch(
-      addNewEntry({
-        message: { isFromUser: true, text: message },
-      })
-    );
-    askQuestion({
-      Question: message,
-      UserId: userId,
-      ConversationId: conversationId,
-    });
-    setMessage("");
+  const handleSendMessage = async () => {
+    try {
+      if (message === "") {
+        return;
+      }
 
-    setTimeout(() => {
-      setSendMessageClick(false);
-    }, 1000);
+      setSendMessageClick(true);
+      const question = message;
+      setMessage("");
+
+      const { conversationId: dbConversationId } = await askQuestion({
+        Question: question,
+        UserId: userId,
+        ConversationId: conversationId,
+      }).unwrap();
+
+      if (Number(paramsConversationId) !== dbConversationId) {
+        navigate(`/${dbConversationId}`);
+      } else {
+        dispatch(
+          addNewEntry({
+            message: { isFromUser: true, text: question },
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setSendMessageClick(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -51,12 +69,18 @@ const ChatInput = () => {
           value={message}
           onChange={handleInputChange}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && loading !== true) {
+            if (e.key === "Enter" && loading !== true && !e.shiftKey) {
               e.preventDefault();
+              const chatInput = document.getElementById("chat-input");
+              if (chatInput) {
+                chatInput.style.height = "1px";
+              }
+
               return handleSendMessage();
             }
           }}
           placeholder="Type your message..."
+          id="chat-input"
           className="flex-1 p-2 text-xl min-h-[44px] h-10 max-h-[200px] rounded-md bg-transparent outline-none focus:outline-none resize-none"
         />
         <button

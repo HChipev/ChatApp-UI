@@ -29,9 +29,14 @@ interface CustomJWTPayload extends JwtPayload {
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"?: number;
 }
 
+interface PrivateRouteProps {
+  requiredRoles: string[];
+}
+
 export type {
   RefreshTokenResponse,
   CustomGoogleLoginButtonProps,
   IdentitySliceInitialState,
   CustomJWTPayload,
+  PrivateRouteProps,
 };

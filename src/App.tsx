@@ -16,7 +16,13 @@ import {
   setSysPreferenceDarkMode,
 } from "./store/slices/themeSlice";
 import { io } from "socket.io-client";
-import { addNewEntry, addNewToken } from "./store/slices/conversationSlice";
+import {
+  addNewEntry,
+  addNewToken,
+  setText,
+} from "./store/slices/conversationSlice";
+import CurrentConversation from "./pages/CurrentConversation";
+import DocumentUploader from "./pages/DocumentUploader";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
@@ -34,16 +40,26 @@ const App = () => {
 
     const socket = io("http://127.0.0.1:3000");
 
-    socket.on("add_entry", () => {
-      dispatch(
-        addNewEntry({
-          message: { text: "", isFromUser: false, currentMessageLoading: true },
-        })
-      );
-    });
-
     socket.on("next_token", (data) => {
-      dispatch(addNewToken(data.token));
+      if (data.start) {
+        dispatch(
+          addNewEntry({
+            message: {
+              text: "",
+              isFromUser: false,
+              currentMessageLoading: true,
+            },
+          })
+        );
+      }
+
+      if (data.done) {
+        dispatch(setText(data.text));
+      }
+
+      if (data.token) {
+        dispatch(addNewToken(data.token));
+      }
     });
 
     return () => {
@@ -59,8 +75,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />} />
         <Route path="login" element={<GoogleLogin />} />
-        <Route element={<PrivateRoute />}>
+        <Route element={<PrivateRoute requiredRoles={["User"]} />}>
           <Route index element={<Home />} />
+          <Route path="/:conversationId" element={<CurrentConversation />} />
+        </Route>
+        <Route
+          path="/documents"
+          element={<PrivateRoute requiredRoles={["Admin"]} />}>
+          <Route index element={<DocumentUploader />} />
         </Route>
       </Routes>
     </Router>

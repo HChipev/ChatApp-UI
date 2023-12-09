@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { MessageProps } from "../interfaces/message";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import constants from "../constants/assets";
 
 const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
@@ -16,7 +17,7 @@ const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-start-6 mb-6">
+    <div className="flex flex-col justify-center max-w-full items-start-6 mb-6">
       {!message.currentMessageLoading && (
         <div className="flex flex-col max-w-fit">
           <div className="flex mb-2">
@@ -25,7 +26,7 @@ const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
               alt="Assistant"
               className="w-8 h-8 mr-2 rounded-full"
             />
-            <div className="max-w-full min-h-[32px] text-2xl rounded-lg px-3 py-1 bg-white text-gray-700 self-start">
+            <div className="max-w-full min-h-[32px] text-2xl rounded-lg px-3 py-1 bg-white text-gray-700 self-start whitespace-pre-line">
               {message.text}
             </div>
           </div>
@@ -34,7 +35,8 @@ const ReceivedMessage: React.FC<MessageProps> = ({ message }) => {
               className={`text-base flex items-center mr-1 text-gray-600 dark:text-gray-300 transition-all duration-300 ease-in-out ${
                 copyButtonClicked ? "opacity-100 block" : "opacity-0 hidden"
               }`}>
-              Text copied! <FontAwesomeIcon icon={["fas", "check"]} />
+              Text copied!
+              <FontAwesomeIcon icon={["fas", "check"]} />
             </p>
             <button
               className="bg-none dark:hover:bg-gray-700 hover:bg-gray-300 flex justify-center items-center border w-8 h-8 p-2 border-gray-600 dark:border-gray-300 rounded-lg"

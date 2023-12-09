@@ -4,16 +4,26 @@ import { selectCurrentId } from "../store/slices/identitySlice";
 import ConversationCard from "./ConversationCard";
 import { ConversationCardProps } from "../interfaces/conversation";
 import { CircularProgress } from "@mui/material";
+import { useEffect } from "react";
+import { selectCurrentConversationId } from "../store/slices/conversationSlice";
 
 const Conversations = () => {
   const userId = useSelector(selectCurrentId);
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError, refetch } =
     useGetUserConversationQuery(userId);
+  const currentConversationId = useSelector(selectCurrentConversationId);
+
+  useEffect(() => {
+    refetch();
+  }, [currentConversationId]);
+
   return (
-    <div className="flex flex-col overflow-y-auto scrollable-y">
+    <div className="flex flex-col flex-grow overflow-y-auto scrollable-y">
       {/* <p className="text-lg font-semibold mb-2">Today</p> */}
       {isLoading ? (
-        <CircularProgress />
+        <div className="flex min-w-full min-h-full justify-center items-center">
+          <CircularProgress />
+        </div>
       ) : (
         data.conversations.map((conversation: ConversationCardProps) => (
           <ConversationCard

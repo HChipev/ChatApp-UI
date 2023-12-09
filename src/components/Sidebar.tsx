@@ -13,6 +13,8 @@ import {
 import { useLogOutMutation } from "../store/slices/api/identityApiSlice";
 import { toggleDarkClass } from "../helpers/theme";
 import Conversations from "./Conversations";
+import { useNavigate } from "react-router-dom";
+import { clearCurrentConversation } from "../store/slices/conversationSlice";
 
 const Sidebar = () => {
   const picture = useSelector(selectCurrentPicture);
@@ -22,6 +24,7 @@ const Sidebar = () => {
     selectCurrentSystemPreferenceTheme
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [logOutApiCall] = useLogOutMutation();
 
   const getCurrentTheme = () =>
@@ -39,9 +42,14 @@ const Sidebar = () => {
     dispatch(logOut());
   };
 
+  const handleNewChat = () => {
+    dispatch(clearCurrentConversation());
+    navigate("/");
+  };
+
   return (
-    <div className="flex flex-col justify-between bg-gray-200 dark:bg-gray-900 p-4 h-screen w-[300px]">
-      <div className="flex flex-col overflow-y-auto">
+    <div className="flex flex-col bg-gray-200 dark:bg-gray-900 p-4 h-screen min-w-[300px] max-w-[300px]">
+      <div className="flex flex-col overflow-y-auto flex-grow">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <img
@@ -95,8 +103,10 @@ const Sidebar = () => {
         </div>
         <Conversations />
       </div>
-      <div className="flex justify-center items-center">
-        <button className="flex justify-between items-center bg-gray-300 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-400 text-gray-600 dark:text-gray-300 focus:outline-none">
+      <div className="flex justify-center items-center mt-2">
+        <button
+          onClick={handleNewChat}
+          className="flex justify-between items-center bg-gray-300 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-400 text-gray-600 dark:text-gray-300 focus:outline-none">
           New Chat{" "}
           <FontAwesomeIcon className="ml-2" icon={["far", "pen-to-square"]} />
         </button>

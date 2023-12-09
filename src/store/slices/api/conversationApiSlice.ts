@@ -12,8 +12,14 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
     getUserConversation: builder.query({
       query: (userId) => ({ url: `Conversation/all?userId=${userId}` }),
     }),
+    getConversation: builder.mutation({
+      query: (conversationId) => ({ url: `Conversation/${conversationId}` }),
+    }),
   }),
 });
 
-export const { useAskQuestionMutation, useGetUserConversationQuery } =
-  conversationApiSlice;
+export const {
+  useAskQuestionMutation,
+  useGetUserConversationQuery,
+  useGetConversationMutation,
+} = conversationApiSlice;

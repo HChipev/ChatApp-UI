@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Chat from "../components/Chat";
 import Sidebar from "../components/Sidebar";
 import { useSelector } from "react-redux";
@@ -8,7 +7,7 @@ const Home = () => {
   const messages = useSelector(selectCurrentConversation);
 
   return (
-    <div className="flex min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
       <Sidebar />
       <Chat messages={messages} />
     </div>

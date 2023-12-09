@@ -13,7 +13,14 @@ export const conversationSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCurrentConversation: (state, action) => {
-      state.currentConversation = action.payload;
+      state.currentConversation = action.payload.conversation;
+      state.currentConversationId = action.payload.conversationId;
+    },
+    clearCurrentConversation: (state) => {
+      state.currentConversation = initialState.currentConversation;
+      state.currentConversationId = initialState.currentConversationId;
+      state.currentConversationLoading =
+        initialState.currentConversationLoading;
     },
     addNewEntry: (state, action) => {
       state.currentConversationLoading = true;
@@ -26,11 +33,21 @@ export const conversationSlice = createSlice({
       lastMessage.message.currentMessageLoading = false;
       lastMessage.message.text += action.payload;
     },
+    setText: (state, action) => {
+      const lastMessage =
+        state.currentConversation[state.currentConversation.length - 1];
+      lastMessage.message.text = action.payload;
+    },
   },
 });
 
-export const { setCurrentConversation, addNewEntry, addNewToken } =
-  conversationSlice.actions;
+export const {
+  setCurrentConversation,
+  addNewEntry,
+  addNewToken,
+  setText,
+  clearCurrentConversation,
+} = conversationSlice.actions;
 
 export default conversationSlice.reducer;
 
