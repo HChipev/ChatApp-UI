@@ -3,10 +3,22 @@ import { acceptedFileTypes } from "../constants/fileTypes";
 import { useAddDocumentMutation } from "../store/slices/api/documentApiSlice";
 import DocumentTypeEnum from "../enums/documentTypeEnum";
 import { Documents } from "../interfaces/document";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ModalWrapper from "../components/ModelWrapper";
+import DocumentTable from "../components/DocumentTable";
 
 const DocumentUploader: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [addDocuments] = useAddDocumentMutation();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(e.target.files as FileList);
@@ -16,6 +28,11 @@ const DocumentUploader: React.FC = () => {
     );
 
     setFiles([...files, ...validFiles]);
+  };
+
+  const handleRemoveFile = (indexToRemove: number) => {
+    const updatedFiles = files.filter((_, index) => index !== indexToRemove);
+    setFiles(updatedFiles);
   };
 
   const handleSendDocuments = async () => {
@@ -38,7 +55,9 @@ const DocumentUploader: React.FC = () => {
     );
 
     try {
-      addDocuments(filesToAdd).unwrap();
+      await addDocuments(filesToAdd).unwrap();
+
+      closeModal();
     } catch (error) {
       console.error("Error adding documents:", error);
     }
@@ -66,27 +85,55 @@ const DocumentUploader: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
-      <div className="flex justify-normal items-center bg-gray-200 dark:bg-gray-900 p-4 rounded-md shadow-md">
-        {files.length > 0 ? (
-          <button
-            onClick={handleSendDocuments}
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">
-            Save
-          </button>
-        ) : (
-          <label className="cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">
-            Upload File
-            <input
-              type="file"
-              className="hidden"
-              onChange={handleFileChange}
-              multiple
-              accept=".pdf,.pptx,.docx,.html,.txt"
-            />
-          </label>
-        )}
-      </div>
+    <div className="flex flex-col p-4 items-center w-full h-full bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+      <button
+        className="self-end flex justify-center items-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 mb-4 rounded-md"
+        onClick={openModal}>
+        Add documents
+        <FontAwesomeIcon className="ml-2" icon={["fas", "plus"]} />
+      </button>
+      <DocumentTable />
+
+      <ModalWrapper isOpen={isModalOpen} closeModal={closeModal}>
+        <div className="flex justify-center items-center bg-gray-200 dark:bg-gray-900 p-4 rounded-md">
+          <div className="flex flex-col items-center">
+            {files.length > 0 ? (
+              <>
+                {files.map((file, index) => (
+                  <div key={index} className="mb-2 flex items-center">
+                    <FontAwesomeIcon
+                      icon={["fas", "file-alt"]}
+                      className="mr-2 text-blue-500"
+                    />
+                    {file.name}
+                    <FontAwesomeIcon
+                      icon={["fas", "times"]}
+                      className="ml-2 cursor-pointer text-red-500"
+                      onClick={() => handleRemoveFile(index)}
+                    />
+                  </div>
+                ))}
+                <button
+                  onClick={handleSendDocuments}
+                  className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md ml-4">
+                  Save
+                </button>
+              </>
+            ) : (
+              <label className="cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">
+                Upload File
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  multiple
+                  accept=".pdf,.pptx,.docx,.html,.txt"
+                />
+              </label>
+            )}
+          </div>
+        </div>
+      </ModalWrapper>
     </div>
   );
 };

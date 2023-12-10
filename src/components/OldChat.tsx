@@ -1,5 +1,4 @@
 import Chat from "../components/Chat";
-import Sidebar from "../components/Sidebar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentConversation,
@@ -7,14 +6,15 @@ import {
 } from "../store/slices/conversationSlice";
 import { useGetConversationMutation } from "../store/slices/api/conversationApiSlice";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
-const CurrentConversation = () => {
+const OldChat = () => {
   const conversation = useSelector(selectCurrentConversation);
   const { conversationId } = useParams();
   const [getConversation, { isLoading }] = useGetConversationMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -28,6 +28,7 @@ const CurrentConversation = () => {
           })
         );
       } catch (error) {
+        navigate("not-found", { replace: true });
         console.log(error);
       }
     };
@@ -36,8 +37,7 @@ const CurrentConversation = () => {
   }, [conversationId]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
-      <Sidebar />
+    <>
       {isLoading ? (
         <div className="flex flex-grow justify-center items-center">
           <CircularProgress />
@@ -45,8 +45,8 @@ const CurrentConversation = () => {
       ) : (
         <Chat messages={conversation} />
       )}
-    </div>
+    </>
   );
 };
 
-export default CurrentConversation;
+export default OldChat;
