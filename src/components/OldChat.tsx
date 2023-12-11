@@ -29,7 +29,6 @@ const OldChat = () => {
         );
       } catch (error) {
         navigate("not-found", { replace: true });
-        console.log(error);
       }
     };
 

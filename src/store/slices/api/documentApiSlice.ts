@@ -1,4 +1,4 @@
-import { DocumentsSimple } from "../../../interfaces/document";
+import { DocumentSimple, DocumentsSimple } from "../../../interfaces/document";
 import { apiSlice } from "./apiSlice";
 
 export const documentApiSlice = apiSlice.injectEndpoints({
@@ -13,10 +13,18 @@ export const documentApiSlice = apiSlice.injectEndpoints({
     getDocuments: builder.query<DocumentsSimple, void>({
       query: () => "Document/all",
     }),
-    deleteDocument: builder.mutation<void, number>({
-      query: (documentId) => ({
-        url: `Document/delete/${documentId}`,
+    deleteDocument: builder.mutation<void, DocumentSimple>({
+      query: (body) => ({
+        url: `Document/delete/${body.id}`,
         method: "DELETE",
+        body: { ...body },
+      }),
+    }),
+    restoreDocument: builder.mutation<void, DocumentSimple>({
+      query: (body) => ({
+        url: `Document/restore/${body.id}`,
+        method: "PUT",
+        body: { ...body },
       }),
     }),
   }),
@@ -26,4 +34,5 @@ export const {
   useAddDocumentMutation,
   useGetDocumentsQuery,
   useDeleteDocumentMutation,
+  useRestoreDocumentMutation,
 } = documentApiSlice;

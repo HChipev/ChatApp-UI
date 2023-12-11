@@ -6,13 +6,12 @@ import { selectCurrentPicture } from "../store/slices/identitySlice";
 import constants from "../constants/assets";
 import Tooltip from "./Tooltip";
 import ThemeToggle from "./ThemeToggle";
+import { useLocation, useParams } from "react-router-dom";
 
-const Sidebar: React.FC<SidebarProps> = ({
-  items,
-  activePath,
-  onLinkClick,
-}) => {
+const Sidebar: React.FC<SidebarProps> = ({ items, onLinkClick }) => {
   const picture = useSelector(selectCurrentPicture);
+  const { conversationId } = useParams();
+  const location = useLocation();
 
   return (
     <nav className="flex flex-col items-center justify-between dark:bg-gray-900 border-r border-red-500 p-2">
@@ -27,7 +26,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <FontAwesomeIcon
                   icon={item.icon}
                   className={`text-lg transition-all duration-300 ease-in-out ${
-                    activePath === item.path ? "text-red-500" : ""
+                    location.pathname === item.path ||
+                    (conversationId && item.path === "/")
+                      ? "text-red-500"
+                      : ""
                   }`}
                 />
               </li>

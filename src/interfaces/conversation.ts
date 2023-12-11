@@ -9,7 +9,26 @@ interface ConversationInitialState {
 interface ConversationCardProps {
   title: string;
   conversationId: number;
-  modifiedAt: Date;
 }
 
-export type { ConversationInitialState, ConversationCardProps };
+interface Conversation {
+  title: string;
+  conversationId: number;
+  modifiedAtUtc: Date;
+}
+
+interface Conversations {
+  conversations: Conversation[];
+}
+
+interface GroupedConversations {
+  [key: string]: Conversation[];
+}
+
+export type {
+  ConversationInitialState,
+  ConversationCardProps,
+  Conversation,
+  Conversations,
+  GroupedConversations,
+};

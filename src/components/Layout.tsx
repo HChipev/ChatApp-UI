@@ -4,12 +4,9 @@ import Sidebar from "./Sidebar";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const Layout = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const [activePath, setActivePath] = useState(location.pathname);
 
   const handleLinkClick = (path: string) => {
-    setActivePath(path);
     navigate(path);
   };
 
@@ -33,11 +30,7 @@ const Layout = () => {
 
   return (
     <div className="flex w-screen h-screen">
-      <Sidebar
-        items={sidebarItems}
-        activePath={activePath}
-        onLinkClick={handleLinkClick}
-      />
+      <Sidebar items={sidebarItems} onLinkClick={handleLinkClick} />
       <Outlet />
     </div>
   );

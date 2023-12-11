@@ -11,7 +11,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     <>
       {isOpen && (
         <div className="fixed inset-0 overflow-y-auto z-50">
-          <div className="flex items-center justify-center min-h-screen">
+          <div className="flex bg-gray-600 bg-opacity-70 items-center justify-center min-h-screen">
             <div className="fixed inset-0 transition-opacity">
               <div
                 className="absolute inset-0 bg-darkGray opacity-75"

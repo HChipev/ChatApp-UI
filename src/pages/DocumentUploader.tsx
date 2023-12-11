@@ -10,6 +10,7 @@ import DocumentTable from "../components/DocumentTable";
 const DocumentUploader: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRefetchTriggered, setIsRefetchTriggered] = useState(false);
   const [addDocuments] = useAddDocumentMutation();
 
   const openModal = () => {
@@ -17,6 +18,7 @@ const DocumentUploader: React.FC = () => {
   };
 
   const closeModal = () => {
+    setFiles([]);
     setIsModalOpen(false);
   };
 
@@ -55,7 +57,13 @@ const DocumentUploader: React.FC = () => {
     );
 
     try {
-      await addDocuments(filesToAdd).unwrap();
+      const success = await addDocuments(filesToAdd).unwrap();
+
+      if (success) {
+        setIsRefetchTriggered(true);
+
+        setTimeout(() => setIsRefetchTriggered(false), 100);
+      }
 
       closeModal();
     } catch (error) {
@@ -92,15 +100,18 @@ const DocumentUploader: React.FC = () => {
         Add documents
         <FontAwesomeIcon className="ml-2" icon={["fas", "plus"]} />
       </button>
-      <DocumentTable />
+      <DocumentTable isRefetchTriggered={isRefetchTriggered} />
 
       <ModalWrapper isOpen={isModalOpen} closeModal={closeModal}>
-        <div className="flex justify-center items-center bg-gray-200 dark:bg-gray-900 p-4 rounded-md">
-          <div className="flex flex-col items-center">
+        <div className="flex flex-col justify-between items-center bg-gray-200 dark:bg-gray-900 rounded-md min-h-[320px]">
+          <h1 className="text-3xl dark:text-gray-200">
+            Upload documents modal
+          </h1>
+          <div className="flex flex-col gap-4 items-center justify-center max-h-80 overflow-y-auto min-w-[50%]">
             {files.length > 0 ? (
               <>
                 {files.map((file, index) => (
-                  <div key={index} className="mb-2 flex items-center">
+                  <div key={index} className="mb-2 flex items-center text-2xl">
                     <FontAwesomeIcon
                       icon={["fas", "file-alt"]}
                       className="mr-2 text-blue-500"
@@ -115,12 +126,12 @@ const DocumentUploader: React.FC = () => {
                 ))}
                 <button
                   onClick={handleSendDocuments}
-                  className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md ml-4">
+                  className="cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md w-full">
                   Save
                 </button>
               </>
             ) : (
-              <label className="cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md">
+              <label className="cursor-pointer bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md w-full text-center">
                 Upload File
                 <input
                   type="file"

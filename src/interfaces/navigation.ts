@@ -9,7 +9,6 @@ interface SidebarItem {
 
 interface SidebarProps {
   items: SidebarItem[];
-  activePath: string;
   onLinkClick: (path: string) => void;
 }
 

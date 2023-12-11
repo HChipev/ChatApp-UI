@@ -3,7 +3,6 @@ import { ConversationCardProps } from "../interfaces/conversation";
 
 const ConversationCard: React.FC<ConversationCardProps> = ({
   title,
-  modifiedAt,
   conversationId,
 }) => {
   const { conversationId: routeConversationId } = useParams();

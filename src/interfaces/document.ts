@@ -1,5 +1,3 @@
-import { UseQueryHookResult } from "@reduxjs/toolkit/dist/query/react/buildHooks";
-
 interface Document {
   name: string;
   type?: number;
@@ -13,10 +11,22 @@ interface Documents {
 interface DocumentSimple {
   id: number;
   name: string;
+  bytes: string;
+  isDeleted: boolean;
 }
 
 interface DocumentsSimple {
   documents: DocumentSimple[];
 }
 
-export type { Document, Documents, DocumentSimple, DocumentsSimple };
+interface DocumentTableProps {
+  isRefetchTriggered: boolean;
+}
+
+export type {
+  Document,
+  Documents,
+  DocumentSimple,
+  DocumentsSimple,
+  DocumentTableProps,
+};
