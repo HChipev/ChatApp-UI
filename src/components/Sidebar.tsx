@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ items, onLinkClick }) => {
   return (
     <nav className="flex flex-col items-center justify-between dark:bg-gray-900 border-r border-red-500 p-2">
       <div className="flex flex-col gap-10">
-        <img src={constants.logo} alt="Profile" className="w-10 h-10" />
+        <img src={constants.logo} alt="Profile" className="w-9 h-9" />
         <ul className="flex flex-col gap-2">
           {items.map((item, index) => (
             <Tooltip key={index} content={item.label} position="right">
