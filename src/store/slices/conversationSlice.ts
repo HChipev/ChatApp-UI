@@ -38,6 +38,13 @@ export const conversationSlice = createSlice({
         state.currentConversation[state.currentConversation.length - 1];
       lastMessage.message.text = action.payload;
     },
+    setTextOnError: (state, action) => {
+      const lastMessage =
+        state.currentConversation[state.currentConversation.length - 1];
+      lastMessage.message.text = action.payload;
+      lastMessage.message.currentMessageLoading = false;
+      state.currentConversationLoading = false;
+    },
   },
 });
 
@@ -46,6 +53,7 @@ export const {
   addNewEntry,
   addNewToken,
   setText,
+  setTextOnError,
   clearCurrentConversation,
 } = conversationSlice.actions;
 

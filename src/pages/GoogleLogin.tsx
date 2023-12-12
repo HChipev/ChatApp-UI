@@ -6,6 +6,7 @@ import { setCredentials } from "../store/slices/identitySlice";
 import { useGoogleLoginMutation } from "../store/slices/api/identityApiSlice";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import { addNotification } from "../store/slices/notificationSlice";
 
 const GoogleLoginPage = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,13 @@ const GoogleLoginPage = () => {
 
         navigate("/");
       } catch (error) {
-        console.log(error);
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "error",
+            message: String((error as { data: any }).data),
+          })
+        );
       }
     },
     onError: () => dispatch(setCredentials(null)),

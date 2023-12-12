@@ -10,6 +10,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   const handleClick = () => {
     navigate(`/${conversationId}`);
   };
+
   return (
     <div
       onClick={handleClick}

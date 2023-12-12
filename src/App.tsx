@@ -23,11 +23,14 @@ import {
   addNewEntry,
   addNewToken,
   setText,
+  setTextOnError,
 } from "./store/slices/conversationSlice";
 import DocumentUploader from "./pages/DocumentUploader";
 import NewChat from "./components/NewChat";
 import OldChat from "./components/OldChat";
 import NotFound from "./pages/NotFound";
+import { startConnection, stopConnection } from "./services/signalR";
+import Notification from "./components/Notification";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
@@ -65,10 +68,17 @@ const App = () => {
       if (data.token) {
         dispatch(addNewToken(data.token));
       }
+
+      if (data.error) {
+        dispatch(setTextOnError(data.text));
+      }
     });
+
+    startConnection();
 
     return () => {
       socket.disconnect();
+      stopConnection();
       mediaQuery.removeEventListener("change", (e) =>
         toggleDarkClass(e.matches)
       );
@@ -93,6 +103,7 @@ const App = () => {
         <Route path="not-found" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />
       </Routes>
+      <Notification />
     </Router>
   );
 };

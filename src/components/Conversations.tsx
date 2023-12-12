@@ -13,6 +13,7 @@ import { selectCurrentConversationId } from "../store/slices/conversationSlice";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { addRefetchConversationsListener } from "../services/signalR";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -20,13 +21,14 @@ dayjs.extend(timezone);
 const Conversations = () => {
   const userId = useSelector(selectCurrentId);
   const { data, isLoading, refetch } = useGetUserConversationQuery(userId);
-  const currentConversationId = useSelector(selectCurrentConversationId);
   const [groupedConversations, setGroupedConversations] =
     useState<GroupedConversations>();
 
   useEffect(() => {
-    refetch();
-  }, [currentConversationId]);
+    addRefetchConversationsListener(() => {
+      refetch();
+    });
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -114,7 +116,9 @@ const Conversations = () => {
           {groupedConversations &&
             Object.keys(groupedConversations).map((timeInterval) => (
               <div key={timeInterval}>
-                <h2 className="text-lg font-semibold mb-2">{timeInterval}</h2>
+                <h2 className="text-lg font-semibold p-2 sticky top-0 bg-gray-100 dark:bg-gray-900">
+                  {timeInterval}
+                </h2>
                 {groupedConversations[timeInterval].map(
                   (conversation: Conversation) => (
                     <ConversationCard

@@ -10,6 +10,7 @@ import {
 import { CircularProgress } from "@mui/material";
 import { selectCurrentId } from "../store/slices/identitySlice";
 import { useNavigate, useParams } from "react-router-dom";
+import { addNotification } from "../store/slices/notificationSlice";
 
 const ChatInput = () => {
   const [sendMessageClick, setSendMessageClick] = useState<boolean>(false);
@@ -54,7 +55,13 @@ const ChatInput = () => {
         );
       }
     } catch (error) {
-      console.log(error);
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "error",
+          message: String((error as { data: any }).data),
+        })
+      );
     } finally {
       setTimeout(() => {
         setSendMessageClick(false);

@@ -6,12 +6,14 @@ import { Documents } from "../interfaces/document";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalWrapper from "../components/ModelWrapper";
 import DocumentTable from "../components/DocumentTable";
+import { addNotification } from "../store/slices/notificationSlice";
+import { useDispatch } from "react-redux";
 
 const DocumentUploader: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRefetchTriggered, setIsRefetchTriggered] = useState(false);
   const [addDocuments] = useAddDocumentMutation();
+  const dispatch = useDispatch();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -57,17 +59,24 @@ const DocumentUploader: React.FC = () => {
     );
 
     try {
-      const success = await addDocuments(filesToAdd).unwrap();
-
-      if (success) {
-        setIsRefetchTriggered(true);
-
-        setTimeout(() => setIsRefetchTriggered(false), 100);
-      }
+      await addDocuments(filesToAdd).unwrap();
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: "Added documents.",
+        })
+      );
 
       closeModal();
     } catch (error) {
-      console.error("Error adding documents:", error);
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "error",
+          message: String((error as { data: any }).data),
+        })
+      );
     }
   };
 
@@ -100,7 +109,7 @@ const DocumentUploader: React.FC = () => {
         Add documents
         <FontAwesomeIcon className="ml-2" icon={["fas", "plus"]} />
       </button>
-      <DocumentTable isRefetchTriggered={isRefetchTriggered} />
+      <DocumentTable />
 
       <ModalWrapper isOpen={isModalOpen} closeModal={closeModal}>
         <div className="flex flex-col justify-between items-center bg-gray-200 dark:bg-gray-900 rounded-md min-h-[320px]">

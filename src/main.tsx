@@ -12,9 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <Provider store={store}>
       <PersistGate loading={<CircularProgress />} persistor={persistor}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
+        <App />
       </PersistGate>
     </Provider>
   </GoogleOAuthProvider>

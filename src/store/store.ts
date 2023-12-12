@@ -4,6 +4,7 @@ import { persistStore } from "redux-persist";
 import identityReducer from "./slices/identitySlice";
 import themeReducer from "./slices/themeSlice";
 import conversationReducer from "./slices/conversationSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     identity: identityReducer,
     theme: themeReducer,
     conversation: conversationReducer,
+    notification: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

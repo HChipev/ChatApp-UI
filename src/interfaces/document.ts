@@ -19,14 +19,4 @@ interface DocumentsSimple {
   documents: DocumentSimple[];
 }
 
-interface DocumentTableProps {
-  isRefetchTriggered: boolean;
-}
-
-export type {
-  Document,
-  Documents,
-  DocumentSimple,
-  DocumentsSimple,
-  DocumentTableProps,
-};
+export type { Document, Documents, DocumentSimple, DocumentsSimple };

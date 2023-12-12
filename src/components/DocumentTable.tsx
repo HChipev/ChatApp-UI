@@ -6,28 +6,35 @@ import {
 } from "../store/slices/api/documentApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgress } from "@mui/material";
-import { DocumentSimple, DocumentTableProps } from "../interfaces/document";
+import { addRefetchDocumentsListener } from "../services/signalR";
+import { DocumentSimple } from "../interfaces/document";
+import { addNotification } from "../store/slices/notificationSlice";
+import { useDispatch } from "react-redux";
 
-const DocumentTable: React.FC<DocumentTableProps> = ({
-  isRefetchTriggered,
-}) => {
+const DocumentTable: React.FC = () => {
   const { data, isLoading, isError, refetch } = useGetDocumentsQuery();
   const [deleteDocument] = useDeleteDocumentMutation();
   const [restoreDocument] = useRestoreDocumentMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isRefetchTriggered) {
+    addRefetchDocumentsListener(() => {
       refetch();
-    }
-  }, [isRefetchTriggered]);
+    });
+  }, []);
 
   const handleDelete = async (document: DocumentSimple) => {
     if (!document.isDeleted) {
       try {
         await deleteDocument(document).unwrap();
-        refetch();
       } catch (error) {
-        console.error("Error deleting document:", error);
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "error",
+            message: String((error as { data: any }).data),
+          })
+        );
       }
     }
   };
@@ -36,9 +43,14 @@ const DocumentTable: React.FC<DocumentTableProps> = ({
     if (document.isDeleted) {
       try {
         await restoreDocument(document).unwrap();
-        refetch();
       } catch (error) {
-        console.error("Error deleting document:", error);
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "error",
+            message: String((error as { data: any }).data),
+          })
+        );
       }
     }
   };
