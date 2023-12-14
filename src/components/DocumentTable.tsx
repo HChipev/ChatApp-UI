@@ -120,6 +120,11 @@ const DocumentTable: React.FC = () => {
                   ) : (
                     <>
                       <button
+                        onClick={() => handleDownload(document)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white w-full h-8 rounded">
+                        <FontAwesomeIcon icon={["fas", "download"]} />
+                      </button>
+                      <button
                         onClick={() => handleDelete(document)}
                         className={`${
                           document.isDeleted
@@ -128,11 +133,6 @@ const DocumentTable: React.FC = () => {
                         } bg-red-500 hover:bg-red-600 text-gray-200 w-full h-8 rounded mr-2`}
                         disabled={document.isDeleted}>
                         <FontAwesomeIcon icon={["fas", "trash"]} />
-                      </button>
-                      <button
-                        onClick={() => handleDownload(document)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white w-full h-8 rounded">
-                        <FontAwesomeIcon icon={["fas", "download"]} />
                       </button>
                     </>
                   )}

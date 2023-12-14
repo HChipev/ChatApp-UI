@@ -24,7 +24,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       {children}
       {showTooltip && (
         <div
-          className={`absolute bg-gray-300 dark:bg-gray-600 dark:text-gray-200 px-2 py-1 rounded-md text-sm`}
+          className={`absolute bg-gray-300 dark:bg-gray-600 dark:text-gray-200 px-2 py-1 rounded-md text-lg`}
           style={{
             top:
               position === "bottom"

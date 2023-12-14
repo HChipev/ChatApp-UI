@@ -3,42 +3,19 @@ import {
   logOut,
   selectCurrentName,
   selectCurrentPicture,
-  selectCurrentRoles,
 } from "../store/slices/identitySlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLogOutMutation } from "../store/slices/api/identityApiSlice";
 import Conversations from "./Conversations";
 import { useNavigate } from "react-router-dom";
 import { clearCurrentConversation } from "../store/slices/conversationSlice";
-import {
-  selectCurrentSystemPreferenceTheme,
-  selectCurrentTheme,
-  setDarkMode,
-} from "../store/slices/themeSlice";
-import { toggleDarkClass } from "../helpers/theme";
-import ThemeToggle from "./ThemeToggle";
 
 const MessageBar = () => {
   const picture = useSelector(selectCurrentPicture);
   const name = useSelector(selectCurrentName);
-  const roles = useSelector(selectCurrentRoles);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logOutApiCall] = useLogOutMutation();
-
-  const isDarkMode = useSelector(selectCurrentTheme);
-  const isSysPreferenceDarkMode = useSelector(
-    selectCurrentSystemPreferenceTheme
-  );
-
-  const getCurrentTheme = () =>
-    isDarkMode === null ? isSysPreferenceDarkMode : isDarkMode;
-
-  const toggleTheme = (state: boolean) => {
-    dispatch(setDarkMode(state));
-
-    toggleDarkClass(state);
-  };
 
   const handleLogout = async () => {
     await logOutApiCall({});
@@ -54,7 +31,7 @@ const MessageBar = () => {
   return (
     <div
       className="flex flex-col 
-     dark:bg-gray-900 p-4 h-screen min-w-[300px] max-w-[300px]">
+     dark:bg-gray-900 p-4 h-full min-w-[300px] max-w-[300px]">
       <div className="flex flex-col overflow-y-auto flex-grow">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
@@ -78,17 +55,12 @@ const MessageBar = () => {
             </button>
           </div>
         </div>
-        {!roles?.includes("Admin") && (
-          <div className="mb-4">
-            <ThemeToggle />
-          </div>
-        )}
         <Conversations />
       </div>
       <div className="flex justify-center items-center mt-2">
         <button
           onClick={handleNewChat}
-          className="flex justify-between items-center bg-gray-300 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-400 text-gray-600 dark:text-gray-300 focus:outline-none">
+          className="flex justify-between items-center bg-gray-300 dark:bg-gray-700 w-full text-xl p-2 rounded-md dark:hover:bg-gray-600 hover:bg-gray-400 text-gray-600 dark:text-gray-200 focus:outline-none">
           New Chat
           <FontAwesomeIcon className="ml-2" icon={["far", "pen-to-square"]} />
         </button>

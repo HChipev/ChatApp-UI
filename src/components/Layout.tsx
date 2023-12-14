@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { SidebarItem } from "../interfaces/navigation";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -10,21 +10,24 @@ const Layout = () => {
     navigate(path);
   };
 
-  const sidebarItems = [
+  const sidebarItems: SidebarItem[] = [
     {
       label: "Home",
       path: "/",
       icon: { prefix: "far", iconName: "message" } as IconProp,
+      requiredRoles: ["User"],
     },
     {
-      label: "Upload documents",
+      label: "Documents",
       path: "/documents",
       icon: { prefix: "far", iconName: "folder-open" } as IconProp,
+      requiredRoles: ["Admin"],
     },
     {
-      label: "Admin panel",
+      label: "Admin",
       path: "/admin",
       icon: { prefix: "far", iconName: "user" } as IconProp,
+      requiredRoles: ["Admin"],
     },
   ];
 

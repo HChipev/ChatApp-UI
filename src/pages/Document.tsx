@@ -9,7 +9,7 @@ import DocumentTable from "../components/DocumentTable";
 import { addNotification } from "../store/slices/notificationSlice";
 import { useDispatch } from "react-redux";
 
-const DocumentUploader: React.FC = () => {
+const Document: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addDocuments] = useAddDocumentMutation();
@@ -102,7 +102,7 @@ const DocumentUploader: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 items-center w-full h-full bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
+    <div className="flex flex-col p-4 items-center w-[calc(100%-56px)] h-full bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
       <button
         className="self-end flex justify-center items-center bg-red-500 hover:bg-red-600 text-white py-2 px-4 mb-4 rounded-md"
         onClick={openModal}>
@@ -158,4 +158,4 @@ const DocumentUploader: React.FC = () => {
   );
 };
 
-export default DocumentUploader;
+export default Document;

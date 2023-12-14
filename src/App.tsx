@@ -25,12 +25,13 @@ import {
   setText,
   setTextOnError,
 } from "./store/slices/conversationSlice";
-import DocumentUploader from "./pages/DocumentUploader";
+import Document from "./pages/Document";
 import NewChat from "./components/NewChat";
 import OldChat from "./components/OldChat";
 import NotFound from "./pages/NotFound";
 import { startConnection, stopConnection } from "./services/signalR";
 import Notification from "./components/Notification";
+import Admin from "./pages/Admin";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
@@ -98,7 +99,12 @@ const App = () => {
         <Route
           path="/documents"
           element={<PrivateRoute requiredRoles={["Admin"]} />}>
-          <Route index element={<DocumentUploader />} />
+          <Route index element={<Document />} />
+        </Route>
+        <Route
+          path="/admin"
+          element={<PrivateRoute requiredRoles={["Admin"]} />}>
+          <Route index element={<Admin />} />
         </Route>
         <Route path="not-found" element={<NotFound />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />

@@ -22,6 +22,8 @@ const refetchDocumentsHubConnection = createHubConnection("refetch-documents");
 const refetchConversationsHubConnection = createHubConnection(
   "refetch-conversations"
 );
+const refetchAdminDataHubConnections =
+  createHubConnection("refetch-admin-data");
 
 const startConnection = async () => {
   await stopConnection();
@@ -29,6 +31,7 @@ const startConnection = async () => {
   try {
     await refetchDocumentsHubConnection.start();
     await refetchConversationsHubConnection.start();
+    await refetchAdminDataHubConnections.start();
   } catch (err) {
     console.error("Error while establishing SignalR connection:", err);
   }
@@ -37,6 +40,7 @@ const startConnection = async () => {
 const stopConnection = async () => {
   await refetchDocumentsHubConnection.stop();
   await refetchConversationsHubConnection.stop();
+  await refetchAdminDataHubConnections.stop();
 };
 
 const addRefetchDocumentsListener = (callback: () => void) => {
@@ -51,9 +55,23 @@ const addRefetchConversationsListener = (callback: () => void) => {
   });
 };
 
+const addRefetchUsersListener = (callback: () => void) => {
+  refetchAdminDataHubConnections.on("RefetchUsers", () => {
+    callback();
+  });
+};
+
+const addRefetchRolesListener = (callback: () => void) => {
+  refetchAdminDataHubConnections.on("RefetchRoles", () => {
+    callback();
+  });
+};
+
 export {
   startConnection,
   stopConnection,
   addRefetchDocumentsListener,
   addRefetchConversationsListener,
+  addRefetchRolesListener,
+  addRefetchUsersListener,
 };

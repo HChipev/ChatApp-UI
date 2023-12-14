@@ -5,6 +5,7 @@ interface SidebarItem {
   label: string;
   path: string;
   icon: IconProp;
+  requiredRoles: string[];
 }
 
 interface SidebarProps {
@@ -24,4 +25,22 @@ interface TooltipProps {
   position?: "top" | "right" | "bottom" | "left";
 }
 
-export type { SidebarProps, TooltipProps, ModalWrapperProps };
+interface Tab {
+  id: string;
+  label: string;
+  icon: IconProp;
+}
+
+interface TabMenuProps {
+  tabs: Tab[];
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+export type {
+  SidebarItem,
+  SidebarProps,
+  TooltipProps,
+  ModalWrapperProps,
+  TabMenuProps,
+};

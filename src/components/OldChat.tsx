@@ -19,11 +19,11 @@ const OldChat = () => {
   useEffect(() => {
     const fetchConversation = async () => {
       try {
-        const messages = await getConversation(conversationId).unwrap();
+        const data = await getConversation(conversationId).unwrap();
 
         dispatch(
           setCurrentConversation({
-            conversation: messages,
+            conversation: data.messages,
             conversationId: conversationId,
           })
         );

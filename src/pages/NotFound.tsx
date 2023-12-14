@@ -9,7 +9,7 @@ const NotFound: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col bg-gray-100 dark:bg-gray-800 items-center justify-center h-screen w-screen">
+    <div className="flex flex-col bg-gray-100 dark:bg-gray-800 items-center justify-center h-full w-full">
       <img
         src={constants.notFound}
         alt="Sad Robot"

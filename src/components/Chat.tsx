@@ -15,7 +15,7 @@ const Chat: React.FC<MessagesProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col relative h-screen w-full p-4 bg-gray-100 dark:bg-gray-800">
+    <div className="flex flex-col relative h-full w-full p-4 bg-gray-100 dark:bg-gray-800">
       <div
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto p-2 scrollable-y">
