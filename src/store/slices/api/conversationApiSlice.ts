@@ -1,18 +1,27 @@
+import {
+  Conversation,
+  Conversations,
+  GenerateAnswer,
+  GetConversationMessages,
+} from "../../../interfaces/conversation";
 import { apiSlice } from "./apiSlice";
 
 export const conversationApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    askQuestion: builder.mutation({
+    askQuestion: builder.mutation<Conversation, GenerateAnswer>({
       query: (body) => ({
         url: "Conversation/ask",
         method: "POST",
         body: { ...body },
       }),
     }),
-    getUserConversation: builder.query({
+    getUserConversation: builder.query<Conversations, string | undefined>({
       query: (userId) => ({ url: `Conversation/all?userId=${userId}` }),
     }),
-    getConversation: builder.mutation({
+    getConversation: builder.mutation<
+      GetConversationMessages,
+      string | undefined
+    >({
       query: (conversationId) => ({ url: `Conversation/${conversationId}` }),
     }),
   }),

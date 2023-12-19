@@ -19,6 +19,7 @@ const initialState: IdentitySliceInitialState = {
   picture: null,
   name: null,
   id: null,
+  sid: null,
 };
 
 export const identitySlice = createSlice({
@@ -40,6 +41,9 @@ export const identitySlice = createSlice({
       state.name = name;
       state.id = id;
     },
+    setSid: (state, action) => {
+      state.sid = action.payload;
+    },
     logOut: (state) => {
       state.token = null;
       state.roles = null;
@@ -50,7 +54,7 @@ export const identitySlice = createSlice({
   },
 });
 
-export const { setCredentials, logOut } = identitySlice.actions;
+export const { setCredentials, logOut, setSid } = identitySlice.actions;
 
 const identityReducer = persistReducer(persistConfig, identitySlice.reducer);
 
@@ -62,3 +66,4 @@ export const selectCurrentPicture = (state: RootState) =>
   state.identity.picture;
 export const selectCurrentName = (state: RootState) => state.identity.name;
 export const selectCurrentId = (state: RootState) => state.identity.id;
+export const selectCurrentSid = (state: RootState) => state.identity.sid;

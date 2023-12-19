@@ -32,6 +32,7 @@ import NotFound from "./pages/NotFound";
 import { startConnection, stopConnection } from "./services/signalR";
 import Notification from "./components/Notification";
 import Admin from "./pages/Admin";
+import { setSid } from "./store/slices/identitySlice";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
@@ -48,6 +49,9 @@ const App = () => {
     });
 
     const socket = io("http://127.0.0.1:3000");
+    socket.on("connect", () => {
+      dispatch(setSid(socket.id));
+    });
 
     socket.on("next_token", (data) => {
       if (data.start) {

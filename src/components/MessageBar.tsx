@@ -18,7 +18,7 @@ const MessageBar = () => {
   const [logOutApiCall] = useLogOutMutation();
 
   const handleLogout = async () => {
-    await logOutApiCall({});
+    await logOutApiCall();
 
     dispatch(logOut());
   };

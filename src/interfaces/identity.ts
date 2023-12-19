@@ -5,11 +5,14 @@ interface CustomGoogleLoginButtonProps {
   children?: React.ReactNode;
 }
 
-interface RefreshTokenResponse {
+interface TokenResponse {
   tokens: {
     token: string;
-    refreshToken: string;
   };
+}
+
+interface GoogleLogin {
+  googleId: string;
 }
 
 interface IdentitySliceInitialState {
@@ -18,6 +21,7 @@ interface IdentitySliceInitialState {
   picture: string | null | undefined;
   name: string | null | undefined;
   id: number | null | undefined;
+  sid: string | null;
 }
 
 interface CustomJWTPayload extends JwtPayload {
@@ -34,9 +38,10 @@ interface PrivateRouteProps {
 }
 
 export type {
-  RefreshTokenResponse,
+  TokenResponse,
   CustomGoogleLoginButtonProps,
   IdentitySliceInitialState,
   CustomJWTPayload,
   PrivateRouteProps,
+  GoogleLogin,
 };

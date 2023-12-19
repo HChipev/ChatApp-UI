@@ -8,7 +8,10 @@ import {
   selectCurrentConversationLoading,
 } from "../store/slices/conversationSlice";
 import { CircularProgress } from "@mui/material";
-import { selectCurrentId } from "../store/slices/identitySlice";
+import {
+  selectCurrentId,
+  selectCurrentSid,
+} from "../store/slices/identitySlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { addNotification } from "../store/slices/notificationSlice";
 
@@ -16,6 +19,7 @@ const ChatInput = () => {
   const [sendMessageClick, setSendMessageClick] = useState<boolean>(false);
   const loading = useSelector(selectCurrentConversationLoading);
   const userId = useSelector(selectCurrentId);
+  const sid = useSelector(selectCurrentSid);
   const conversationId = useSelector(selectCurrentConversationId);
   const [message, setMessage] = useState("");
   const [askQuestion] = useAskQuestionMutation();
@@ -43,6 +47,7 @@ const ChatInput = () => {
         Question: question,
         UserId: userId,
         ConversationId: conversationId,
+        Sid: sid,
       }).unwrap();
 
       if (Number(paramsConversationId) !== dbConversationId) {

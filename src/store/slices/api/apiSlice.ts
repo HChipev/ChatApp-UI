@@ -1,5 +1,4 @@
 import {
-  BaseQueryApi,
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
@@ -8,7 +7,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { setCredentials, logOut } from "../identitySlice";
 import { RootState } from "../../store";
-import { RefreshTokenResponse } from "../../../interfaces/identity";
+import { TokenResponse } from "../../../interfaces/identity";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5182/api/",
@@ -37,7 +36,7 @@ const baseQueryWithReauth: BaseQueryFn<
     );
 
     if (!refreshResult.error) {
-      const token = (refreshResult.data as RefreshTokenResponse).tokens.token;
+      const token = (refreshResult.data as TokenResponse).tokens.token;
 
       api.dispatch(setCredentials(token));
       result = await baseQuery(args, api, extraOptions);

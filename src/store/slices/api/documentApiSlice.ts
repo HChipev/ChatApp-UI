@@ -1,9 +1,9 @@
-import { DocumentSimple, DocumentsSimple } from "../../../interfaces/document";
+import { DocumentSimple, Documents, DocumentsSimple } from "../../../interfaces/document";
 import { apiSlice } from "./apiSlice";
 
 export const documentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    addDocument: builder.mutation({
+    addDocument: builder.mutation<void, Documents>({
       query: (body) => ({
         url: "Document/add",
         method: "POST",
