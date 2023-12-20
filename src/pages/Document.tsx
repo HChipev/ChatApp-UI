@@ -59,12 +59,20 @@ const Document: React.FC = () => {
     );
 
     try {
-      await addDocuments(filesToAdd).unwrap();
+      const res = await addDocuments(filesToAdd).unwrap();
       dispatch(
         addNotification({
           id: Date.now(),
           type: "success",
           message: "Added documents.",
+        })
+      );
+
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: res.message,
         })
       );
 

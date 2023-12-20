@@ -36,7 +36,16 @@ const RoleTable: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteRole(id).unwrap();
+      debugger;
+      const res = await deleteRole(id).unwrap();
+
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: res.message,
+        })
+      );
     } catch (error) {
       dispatch(
         addNotification({
@@ -54,7 +63,15 @@ const RoleTable: React.FC = () => {
         return;
       }
 
-      await addRole({ name: newRoleName }).unwrap();
+      const res = await addRole({ name: newRoleName }).unwrap();
+
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: res.message,
+        })
+      );
 
       closeModal();
     } catch (error) {
@@ -92,7 +109,7 @@ const RoleTable: React.FC = () => {
         Add Role
         <FontAwesomeIcon className="ml-2" icon={["fas", "plus"]} />
       </button>
-      <div className="scrollable-x w-full rounded-lg border border-red-500">
+      <div className="scrollable-y overflow-y-auto w-full rounded-lg border border-red-500">
         <table className="w-full dark:bg-gray-800 bg-gray-100 text-lg">
           <thead>
             <tr>

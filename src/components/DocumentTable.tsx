@@ -26,7 +26,15 @@ const DocumentTable: React.FC = () => {
   const handleDelete = async (document: DocumentSimple) => {
     if (!document.isDeleted) {
       try {
-        await deleteDocument(document).unwrap();
+        const res = await deleteDocument(document).unwrap();
+
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "success",
+            message: res.message,
+          })
+        );
       } catch (error) {
         dispatch(
           addNotification({
@@ -42,7 +50,15 @@ const DocumentTable: React.FC = () => {
   const handleRestore = async (document: DocumentSimple) => {
     if (document.isDeleted) {
       try {
-        await restoreDocument(document).unwrap();
+        const res = await restoreDocument(document).unwrap();
+
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "success",
+            message: res.message,
+          })
+        );
       } catch (error) {
         dispatch(
           addNotification({

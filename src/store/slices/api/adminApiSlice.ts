@@ -1,4 +1,5 @@
 import { RoleSimple, Roles, UserRoles, Users } from "../../../interfaces/admin";
+import { BasicResponse } from "../../../interfaces/baseResponse";
 import { apiSlice } from "./apiSlice";
 
 export const adminApiSlice = apiSlice.injectEndpoints({
@@ -6,26 +7,26 @@ export const adminApiSlice = apiSlice.injectEndpoints({
     getUsers: builder.query<Users, void>({
       query: () => "Admin/user/all",
     }),
-    deleteUser: builder.mutation<void, number>({
+    deleteUser: builder.mutation<BasicResponse, number>({
       query: (id) => ({
         url: `Admin/user/delete/${id}`,
         method: "DELETE",
       }),
     }),
-    deleteRole: builder.mutation<void, number>({
+    deleteRole: builder.mutation<BasicResponse, number>({
       query: (id) => ({
         url: `Admin/role/delete/${id}`,
         method: "DELETE",
       }),
     }),
-    addRole: builder.mutation<void, RoleSimple>({
+    addRole: builder.mutation<BasicResponse, RoleSimple>({
       query: (body) => ({
         url: `Admin/role`,
         method: "POST",
         body: { ...body },
       }),
     }),
-    updateUserRole: builder.mutation<void, UserRoles>({
+    updateUserRole: builder.mutation<BasicResponse, UserRoles>({
       query: (body) => ({
         url: `Admin/user/role`,
         method: "PUT",

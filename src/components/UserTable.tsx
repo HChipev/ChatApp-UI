@@ -40,7 +40,15 @@ const UserTable: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteUser(id).unwrap();
+      const res = await deleteUser(id).unwrap();
+
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: res.message,
+        })
+      );
     } catch (error) {
       dispatch(
         addNotification({
@@ -85,10 +93,18 @@ const UserTable: React.FC = () => {
         return;
       }
 
-      await updateUserRole({
+      const res = await updateUserRole({
         userRoles: selectedUser.userRoles,
         userId: selectedUser.id,
       }).unwrap();
+
+      dispatch(
+        addNotification({
+          id: Date.now(),
+          type: "success",
+          message: res.message,
+        })
+      );
 
       closeModal();
     } catch (error) {

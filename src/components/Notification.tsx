@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,9 +14,8 @@ const Notification: React.FC = () => {
   const isDarkTheme = useSelector(selectCurrentTheme);
 
   notifications.forEach((notification) => {
-    toast[notification.type](notification.message, {
-      onClose: () => dispatch(removeNotification(notification.id)),
-    });
+    toast[notification.type](notification.message);
+    dispatch(removeNotification(notification.id));
   });
 
   return (
