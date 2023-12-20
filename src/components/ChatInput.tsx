@@ -42,6 +42,10 @@ const ChatInput = () => {
       setSendMessageClick(true);
       const question = message;
       setMessage("");
+      const chatInput = document.getElementById("chat-input");
+      if (chatInput) {
+        chatInput.style.height = "1px";
+      }
 
       const { conversationId: dbConversationId } = await askQuestion({
         Question: question,
@@ -75,7 +79,7 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="flex items-center border-t border-gray-300 dark:border-gray-600 pt-4 px-10 transition-all">
+    <div className="flex items-center border-t border-gray-300 dark:border-gray-600 pt-4 px-4 sm:px-10 transition-all">
       <div className="flex p-1 w-full items-end bg-none rounded-lg border border-red-500">
         <textarea
           value={message}

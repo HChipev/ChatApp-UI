@@ -5,6 +5,7 @@ import identityReducer from "./slices/identitySlice";
 import themeReducer from "./slices/themeSlice";
 import conversationReducer from "./slices/conversationSlice";
 import notificationReducer from "./slices/notificationSlice";
+import menuReducer from "./slices/menuSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     theme: themeReducer,
     conversation: conversationReducer,
     notification: notificationReducer,
+    menu: menuReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

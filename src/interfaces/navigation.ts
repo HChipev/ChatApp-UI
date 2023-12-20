@@ -36,6 +36,10 @@ interface TabMenuProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
+interface MenuSliceInitialState {
+  isOpen: boolean;
+  windowWidth: number | null;
+}
 
 export type {
   SidebarItem,
@@ -43,4 +47,5 @@ export type {
   TooltipProps,
   ModalWrapperProps,
   TabMenuProps,
+  MenuSliceInitialState,
 };

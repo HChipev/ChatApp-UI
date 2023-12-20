@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { ConversationCardProps } from "../interfaces/conversation";
+import { useDispatch } from "react-redux";
+import { setIsOpen } from "../store/slices/menuSlice";
 
 const ConversationCard: React.FC<ConversationCardProps> = ({
   title,
@@ -7,7 +9,9 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
 }) => {
   const { conversationId: routeConversationId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleClick = () => {
+    dispatch(setIsOpen(false));
     navigate(`/${conversationId}`);
   };
 

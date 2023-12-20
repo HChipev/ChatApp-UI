@@ -9,7 +9,6 @@ import {
 } from "../interfaces/conversation";
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-import { selectCurrentConversationId } from "../store/slices/conversationSlice";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -20,7 +19,9 @@ dayjs.extend(timezone);
 
 const Conversations = () => {
   const userId = useSelector(selectCurrentId);
-  const { data, isLoading, refetch } = useGetUserConversationQuery(userId);
+  const { data, isLoading, refetch } = useGetUserConversationQuery(
+    String(userId)
+  );
   const [groupedConversations, setGroupedConversations] =
     useState<GroupedConversations>();
 

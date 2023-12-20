@@ -39,11 +39,11 @@ const GoogleLoginPage = () => {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen dark:bg-gray-900 bg-gray-200">
+    <div className="flex items-center justify-center w-screen h-screen dark:bg-gray-900 bg-gray-200">
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <div className="p-8 rounded shadow-md w-96 dark:bg-gray-800 bg-gray-100 dark:text-white text-black">
+        <div className="p-8 rounded shadow-md w-3/4 sm:w-96 dark:bg-gray-800 bg-gray-100 dark:text-white text-black">
           <h2 className="text-2xl font-semibold mb-6">Google login</h2>
 
           <CustomGoogleLoginButton onClick={() => login()}>
