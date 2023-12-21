@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useGetUserConversationQuery } from "../store/slices/api/conversationApiSlice";
+import { useGetUserConversationsQuery } from "../store/slices/api/conversationApiSlice";
 import { selectCurrentId } from "../store/slices/identitySlice";
 import ConversationCard from "./ConversationCard";
 import {
@@ -19,7 +19,7 @@ dayjs.extend(timezone);
 
 const Conversations = () => {
   const userId = useSelector(selectCurrentId);
-  const { data, isLoading, refetch } = useGetUserConversationQuery(
+  const { data, isLoading, refetch } = useGetUserConversationsQuery(
     String(userId)
   );
   const [groupedConversations, setGroupedConversations] =

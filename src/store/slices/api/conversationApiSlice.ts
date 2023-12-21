@@ -17,7 +17,7 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
         body: { ...body },
       }),
     }),
-    getUserConversation: builder.query<Conversations, string | undefined>({
+    getUserConversations: builder.query<Conversations, string | undefined>({
       query: (userId) => ({ url: `Conversation/all?userId=${userId}` }),
     }),
     getConversation: builder.mutation<
@@ -43,7 +43,7 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useAskQuestionMutation,
-  useGetUserConversationQuery,
+  useGetUserConversationsQuery,
   useGetConversationMutation,
   useShareConversationMutation,
   useDeleteConversationMutation,

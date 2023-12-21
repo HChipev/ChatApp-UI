@@ -4,6 +4,7 @@ interface ConversationInitialState {
   currentConversation: MessageProps[];
   currentConversationLoading: boolean;
   currentConversationId: null | number;
+  currentConversationUserId: null | number;
 }
 
 interface ConversationCardProps {
@@ -34,6 +35,7 @@ interface GroupedConversations {
 
 interface GetConversationMessages {
   messages: Message[];
+  userId: number;
 }
 interface Message {
   text: string;

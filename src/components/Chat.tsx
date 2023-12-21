@@ -3,9 +3,12 @@ import { MessagesProps } from "../interfaces/message";
 import ChatInput from "./ChatInput";
 import ReceivedMessage from "./RecivedMessage";
 import SentMessage from "./SentMessage";
+import { useSelector } from "react-redux";
+import { selectCurrentId } from "../store/slices/identitySlice";
 
-const Chat: React.FC<MessagesProps> = ({ messages }) => {
+const Chat: React.FC<MessagesProps> = ({ conversationUserId, messages }) => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const userId = useSelector(selectCurrentId);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -27,7 +30,8 @@ const Chat: React.FC<MessagesProps> = ({ messages }) => {
           )
         )}
       </div>
-      <ChatInput />
+      {(Number(userId) === Number(conversationUserId) ||
+        conversationUserId === null) && <ChatInput />}
     </div>
   );
 };

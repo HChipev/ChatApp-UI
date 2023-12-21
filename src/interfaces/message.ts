@@ -8,6 +8,7 @@ interface MessageProps {
 
 interface MessagesProps {
   messages: MessageProps[];
+  conversationUserId: null | number;
 }
 
 export type { MessagesProps, MessageProps };

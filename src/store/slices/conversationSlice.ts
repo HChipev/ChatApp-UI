@@ -6,6 +6,7 @@ const initialState: ConversationInitialState = {
   currentConversation: [],
   currentConversationLoading: false,
   currentConversationId: null,
+  currentConversationUserId: null,
 };
 
 export const conversationSlice = createSlice({
@@ -15,12 +16,14 @@ export const conversationSlice = createSlice({
     setCurrentConversation: (state, action) => {
       state.currentConversation = action.payload.conversation;
       state.currentConversationId = action.payload.conversationId;
+      state.currentConversationUserId = action.payload.conversationUserId;
     },
     clearCurrentConversation: (state) => {
       state.currentConversation = initialState.currentConversation;
       state.currentConversationId = initialState.currentConversationId;
       state.currentConversationLoading =
         initialState.currentConversationLoading;
+      state.currentConversationUserId = initialState.currentConversationUserId;
     },
     addNewEntry: (state, action) => {
       state.currentConversationLoading = true;
@@ -65,3 +68,5 @@ export const selectCurrentConversationLoading = (state: RootState) =>
   state.conversation.currentConversationLoading;
 export const selectCurrentConversationId = (state: RootState) =>
   state.conversation.currentConversationId;
+export const selectCurrentConversationUserId = (state: RootState) =>
+  state.conversation.currentConversationUserId;

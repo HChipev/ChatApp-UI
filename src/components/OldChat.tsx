@@ -2,6 +2,7 @@ import Chat from "../components/Chat";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentConversation,
+  selectCurrentConversationUserId,
   setCurrentConversation,
 } from "../store/slices/conversationSlice";
 import { useGetConversationMutation } from "../store/slices/api/conversationApiSlice";
@@ -12,6 +13,7 @@ import { addNotification } from "../store/slices/notificationSlice";
 
 const OldChat = () => {
   const conversation = useSelector(selectCurrentConversation);
+  const conversationUserId = useSelector(selectCurrentConversationUserId);
   const { conversationId } = useParams();
   const [getConversation, { isLoading }] = useGetConversationMutation();
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const OldChat = () => {
         dispatch(
           setCurrentConversation({
             conversation: data.messages,
+            conversationUserId: data.userId,
             conversationId: conversationId,
           })
         );
@@ -50,7 +53,7 @@ const OldChat = () => {
           <CircularProgress />
         </div>
       ) : (
-        <Chat messages={conversation} />
+        <Chat conversationUserId={conversationUserId} messages={conversation} />
       )}
     </>
   );
