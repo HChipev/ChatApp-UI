@@ -41,6 +41,10 @@ interface Message {
   currentMessageLoading: boolean;
 }
 
+interface ShareConversation {
+  link: string;
+}
+
 export type {
   ConversationInitialState,
   ConversationCardProps,
@@ -50,4 +54,5 @@ export type {
   GenerateAnswer,
   GetConversationMessages,
   Message,
+  ShareConversation,
 };

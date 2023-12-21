@@ -1,8 +1,10 @@
+import { BasicResponse } from "../../../interfaces/baseResponse";
 import {
   Conversation,
   Conversations,
   GenerateAnswer,
   GetConversationMessages,
+  ShareConversation,
 } from "../../../interfaces/conversation";
 import { apiSlice } from "./apiSlice";
 
@@ -24,6 +26,18 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
     >({
       query: (conversationId) => ({ url: `Conversation/${conversationId}` }),
     }),
+    shareConversation: builder.mutation<ShareConversation, string | undefined>({
+      query: (conversationId) => ({
+        url: `Conversation/${conversationId}`,
+        method: "PUT",
+      }),
+    }),
+    deleteConversation: builder.mutation<BasicResponse, string | undefined>({
+      query: (conversationId) => ({
+        url: `Conversation/${conversationId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -31,4 +45,6 @@ export const {
   useAskQuestionMutation,
   useGetUserConversationQuery,
   useGetConversationMutation,
+  useShareConversationMutation,
+  useDeleteConversationMutation,
 } = conversationApiSlice;

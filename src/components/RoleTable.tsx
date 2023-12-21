@@ -36,7 +36,6 @@ const RoleTable: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      debugger;
       const res = await deleteRole(id).unwrap();
 
       dispatch(

@@ -8,6 +8,7 @@ import { useGetConversationMutation } from "../store/slices/api/conversationApiS
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import { addNotification } from "../store/slices/notificationSlice";
 
 const OldChat = () => {
   const conversation = useSelector(selectCurrentConversation);
@@ -28,7 +29,14 @@ const OldChat = () => {
           })
         );
       } catch (error) {
-        navigate("not-found", { replace: true });
+        dispatch(
+          addNotification({
+            id: Date.now(),
+            type: "error",
+            message: String((error as { data: any }).data),
+          })
+        );
+        navigate("/", { replace: true });
       }
     };
 
