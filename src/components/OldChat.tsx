@@ -36,7 +36,9 @@ const OldChat = () => {
           addNotification({
             id: Date.now(),
             type: "error",
-            message: String((error as { data: any }).data),
+            message: String(
+              (error as { data: any }).data ?? "An error occurred!"
+            ),
           })
         );
         navigate("/", { replace: true });
