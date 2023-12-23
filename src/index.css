@@ -54,3 +54,8 @@ body {
 .scrollable-x::-webkit-scrollbar {
   height: 6px;
 }
+
+fieldset {
+  border: none !important;
+  outline: none !important;
+}

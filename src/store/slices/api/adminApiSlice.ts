@@ -1,4 +1,11 @@
-import { RoleSimple, Roles, UserRoles, Users } from "../../../interfaces/admin";
+import {
+  Permissions,
+  RolePermissions,
+  RoleSimple,
+  Roles,
+  UserRoles,
+  Users,
+} from "../../../interfaces/admin";
 import { BasicResponse } from "../../../interfaces/baseResponse";
 import { apiSlice } from "./apiSlice";
 
@@ -36,6 +43,16 @@ export const adminApiSlice = apiSlice.injectEndpoints({
     getRoles: builder.query<Roles, void>({
       query: () => "Admin/role/all",
     }),
+    updateRolePermission: builder.mutation<BasicResponse, RolePermissions>({
+      query: (body) => ({
+        url: `Admin/role/permission`,
+        method: "PUT",
+        body: { ...body },
+      }),
+    }),
+    getPermissions: builder.query<Permissions, void>({
+      query: () => "Admin/permission/all",
+    }),
   }),
 });
 
@@ -46,4 +63,6 @@ export const {
   useGetUsersQuery,
   useUpdateUserRoleMutation,
   useGetRolesQuery,
+  useGetPermissionsQuery,
+  useUpdateRolePermissionMutation,
 } = adminApiSlice;
