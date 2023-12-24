@@ -11,7 +11,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toggleDarkClass } from "./helpers/theme";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,6 +22,7 @@ import { io } from "socket.io-client";
 import {
   addNewEntry,
   addNewToken,
+  selectCurrentConversationId,
   setText,
   setTextOnError,
 } from "./store/slices/conversationSlice";
@@ -33,9 +34,12 @@ import { startConnection, stopConnection } from "./services/signalR";
 import Notification from "./components/Notification";
 import Admin from "./pages/Admin";
 import { setSid } from "./store/slices/identitySlice";
+import { NextTokenData } from "./interfaces/conversation";
 
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
+  const currentConversationId = useSelector(selectCurrentConversationId);
+  const [socket] = useState(io("http://127.0.0.1:3000"));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,12 +52,27 @@ const App = () => {
       dispatch(setSysPreferenceDarkMode(e.matches));
     });
 
-    const socket = io("http://127.0.0.1:3000");
     socket.on("connect", () => {
       dispatch(setSid(socket.id));
     });
 
-    socket.on("next_token", (data) => {
+    startConnection();
+
+    return () => {
+      socket.disconnect();
+      stopConnection();
+      mediaQuery.removeEventListener("change", (e) =>
+        toggleDarkClass(e.matches)
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleNextToken = (data: NextTokenData) => {
+      if (data.conversationId !== Number(currentConversationId)) {
+        return;
+      }
+
       if (data.start) {
         dispatch(
           addNewEntry({
@@ -77,18 +96,11 @@ const App = () => {
       if (data.error) {
         dispatch(setTextOnError(data.text));
       }
-    });
-
-    startConnection();
-
-    return () => {
-      socket.disconnect();
-      stopConnection();
-      mediaQuery.removeEventListener("change", (e) =>
-        toggleDarkClass(e.matches)
-      );
     };
-  }, []);
+    socket.off("next_token");
+
+    socket.on("next_token", handleNextToken);
+  }, [currentConversationId]);
 
   return (
     <Router>

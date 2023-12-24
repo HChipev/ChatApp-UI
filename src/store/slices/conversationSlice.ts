@@ -33,20 +33,50 @@ export const conversationSlice = createSlice({
       state.currentConversationLoading = false;
       const lastMessage =
         state.currentConversation[state.currentConversation.length - 1];
-      lastMessage.message.currentMessageLoading = false;
-      lastMessage.message.text += action.payload;
+      if (lastMessage.message.isFromUser) {
+        state.currentConversation.push({
+          message: {
+            text: "",
+            isFromUser: false,
+            currentMessageLoading: false,
+          },
+        });
+      } else {
+        lastMessage.message.currentMessageLoading = false;
+        lastMessage.message.text += action.payload;
+      }
     },
     setText: (state, action) => {
       const lastMessage =
         state.currentConversation[state.currentConversation.length - 1];
-      lastMessage.message.text = action.payload;
+      if (lastMessage.message.isFromUser) {
+        state.currentConversation.push({
+          message: {
+            text: action.payload,
+            isFromUser: false,
+            currentMessageLoading: false,
+          },
+        });
+      } else {
+        lastMessage.message.text = action.payload;
+      }
     },
     setTextOnError: (state, action) => {
       const lastMessage =
         state.currentConversation[state.currentConversation.length - 1];
-      lastMessage.message.text = action.payload;
-      lastMessage.message.currentMessageLoading = false;
-      state.currentConversationLoading = false;
+      if (lastMessage.message.isFromUser) {
+        state.currentConversation.push({
+          message: {
+            text: action.payload,
+            isFromUser: false,
+            currentMessageLoading: false,
+          },
+        });
+      } else {
+        lastMessage.message.text = action.payload;
+        lastMessage.message.currentMessageLoading = false;
+        state.currentConversationLoading = false;
+      }
     },
   },
 });

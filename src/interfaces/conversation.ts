@@ -47,6 +47,15 @@ interface ShareConversation {
   link: string;
 }
 
+interface NextTokenData {
+  start?: boolean;
+  token?: string;
+  text?: string;
+  done?: boolean;
+  error?: boolean;
+  conversationId: number;
+}
+
 export type {
   ConversationInitialState,
   ConversationCardProps,
@@ -57,4 +66,5 @@ export type {
   GetConversationMessages,
   Message,
   ShareConversation,
+  NextTokenData,
 };
