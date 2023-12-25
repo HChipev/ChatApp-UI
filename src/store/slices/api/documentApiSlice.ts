@@ -10,24 +10,24 @@ export const documentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     addDocument: builder.mutation<BasicResponse, Documents>({
       query: (body) => ({
-        url: "Document/add",
+        url: import.meta.env.VITE_ADD_DOCUMENTS_API_URL,
         method: "POST",
         body: { ...body },
       }),
     }),
     getDocuments: builder.query<DocumentsSimple, void>({
-      query: () => "Document/all",
+      query: () => import.meta.env.VITE_GET_DOCUMENTS_API_URL,
     }),
     deleteDocument: builder.mutation<BasicResponse, DocumentSimple>({
       query: (body) => ({
-        url: `Document/delete/${body.id}`,
+        url: `${import.meta.env.VITE_DELETE_DOCUMENT_API_URL}${body.id}`,
         method: "DELETE",
         body: { ...body },
       }),
     }),
     restoreDocument: builder.mutation<BasicResponse, DocumentSimple>({
       query: (body) => ({
-        url: `Document/restore/${body.id}`,
+        url: `${import.meta.env.VITE_RESTORE_DOCUMENT_API_URL}${body.id}`,
         method: "PUT",
         body: { ...body },
       }),

@@ -10,7 +10,7 @@ const createHubConnection = (hubPath: string) => {
   };
 
   return new signalR.HubConnectionBuilder()
-    .withUrl(`http://localhost:5182/Hubs/${hubPath}`, {
+    .withUrl(`${import.meta.env.VITE_BASE_HUB_URL}${hubPath}`, {
       accessTokenFactory,
     })
     .configureLogging(signalR.LogLevel.None)
@@ -18,12 +18,15 @@ const createHubConnection = (hubPath: string) => {
     .build();
 };
 
-const refetchDocumentsHubConnection = createHubConnection("refetch-documents");
-const refetchConversationsHubConnection = createHubConnection(
-  "refetch-conversations"
+const refetchDocumentsHubConnection = createHubConnection(
+  import.meta.env.VITE_REFETCH_DOCUMENTS_HUB_URL
 );
-const refetchAdminDataHubConnections =
-  createHubConnection("refetch-admin-data");
+const refetchConversationsHubConnection = createHubConnection(
+  import.meta.env.VITE_REFETCH_CONVERSATIONS_HUB_URL
+);
+const refetchAdminDataHubConnections = createHubConnection(
+  import.meta.env.VITE_REFETCH_ADMIN_DATA_HUB_URL
+);
 
 const startConnection = async () => {
   await stopConnection();

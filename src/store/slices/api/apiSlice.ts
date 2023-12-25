@@ -10,7 +10,7 @@ import { RootState } from "../../store";
 import { TokenResponse } from "../../../interfaces/identity";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5182/api/",
+  baseUrl: import.meta.env.VITE_BASE_API_URL,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).identity.token;
     if (token) {
@@ -30,7 +30,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
   if (result.error && result.error.status === 401) {
     const refreshResult = await baseQuery(
-      "Identity/refresh-token",
+      import.meta.env.VITE_REFRESH_TOKEN_API_URL,
       api,
       extraOptions
     );
@@ -41,7 +41,7 @@ const baseQueryWithReauth: BaseQueryFn<
       api.dispatch(setCredentials(token));
       result = await baseQuery(args, api, extraOptions);
     } else {
-      await baseQuery("Identity/logout", api, extraOptions);
+      await baseQuery(import.meta.env.VITE_LOGOUT_API_URL, api, extraOptions);
       api.dispatch(logOut());
     }
   }
