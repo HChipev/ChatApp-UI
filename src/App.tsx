@@ -39,7 +39,7 @@ import { NextTokenData } from "./interfaces/conversation";
 const App = () => {
   const isDarkMode = useSelector(selectCurrentTheme);
   const currentConversationId = useSelector(selectCurrentConversationId);
-  const [socket] = useState(io("http://127.0.0.1:3000"));
+  const [socket] = useState(io(import.meta.env.VITE_BASE_MICROSERVICE_URL));
   const dispatch = useDispatch();
 
   useEffect(() => {
