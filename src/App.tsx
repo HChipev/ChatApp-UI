@@ -11,6 +11,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
+import { Helmet } from "react-helmet";
 import { useEffect, useState } from "react";
 import { toggleDarkClass } from "./helpers/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -104,6 +105,47 @@ const App = () => {
 
   return (
     <Router>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>ByteBuddy</title>
+        <meta
+          name="description"
+          content="Meet ByteBuddy, your friendly AI assistant! Navigate the world of technology with ByteBuddy's expertise in AI. From answering queries to providing assistance, ByteBuddy is here to make your experience seamless and enjoyable."
+        />
+        <meta
+          name="keywords"
+          content="ByteBuddy, AI, assistant, technology, help, support, chatbot, virtual assistant"
+        />
+        <meta name="author" content="Hristo Chipev" />
+        <meta property="og:title" content="ByteBuddy" />
+        <meta
+          property="og:description"
+          content="Meet ByteBuddy, your friendly AI assistant! Navigate the world of technology with ByteBuddy's expertise in AI. From answering queries to providing assistance, ByteBuddy is here to make your experience seamless and enjoyable."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://bytebuddy.app/" />
+        <meta
+          property="og:image"
+          content="https://bytebuddy.app/ChatApp-logo.png"
+        />
+        <meta property="og:image:alt" content="ByteBuddy Logo" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="ByteBuddy AI Assistant" />
+        <meta
+          property="twitter:description"
+          content="Meet ByteBuddy, your friendly AI assistant! Navigate the world of technology with ByteBuddy's expertise in AI. From answering queries to providing assistance, ByteBuddy is here to make your experience seamless and enjoyable."
+        />
+        <meta
+          property="twitter:image"
+          content="https://bytebuddy.app/ChatApp-logo.png"
+        />
+        <link
+          rel="sitemap"
+          type="application/xml"
+          title="Sitemap"
+          href="https://bytebuddy.app/sitemap.xml"
+        />
+      </Helmet>
       <Routes>
         <Route path="login" element={<GoogleLogin />} />
         <Route path="/" element={<PrivateRoute requiredRoles={["User"]} />}>
